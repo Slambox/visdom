@@ -83,6 +83,9 @@ function EditablePropertyText(props) {
 function PropertyItem(props) {
   const { propId, type, value, values, blurStopPropagation } = props;
 
+
+  console.log('PropertyItem:', propId, type, value, values, blurStopPropagation)
+
   // by default, this item has no real function & needs to be replaced when used
   const updateValue = props.updateValue || (() => {});
 
