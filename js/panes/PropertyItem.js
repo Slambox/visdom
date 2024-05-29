@@ -25,8 +25,15 @@ function EditablePropertyText(props) {
   // (rejects events based on validateHandler)
   const handleChange = (event) => {
     let newValue = event.target.value;
-    if (validateHandler && !validateHandler(newValue)) event.preventDefault();
-    else setActualValue(newValue);
+    console.log('New value:', newValue)
+    if (validateHandler && !validateHandler(newValue)) {
+        console.log('Validation failed')
+        event.preventDefault();
+    }
+    else {
+        console.log('Validation succeeded')
+        setActualValue(newValue);
+    }
   };
 
   // focus / blur toggles edit mode & blur saves the state
