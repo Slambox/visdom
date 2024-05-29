@@ -57,6 +57,10 @@ if (ACTIVE_ENV !== '') {
 }
 
 const App = () => {
+  console.log("APP RENDERED")
+  console.warn("APP RENDERED")
+  console.error("APP RENDERED")
+
   // -------------- //
   // state varibles //
   // -------------- //
