@@ -8,6 +8,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
+import EventSystem from '../EventSystem';
 
 function EditablePropertyText(props) {
   const { value, validateHandler, submitHandler, blurStopPropagation } = props;
@@ -25,13 +26,10 @@ function EditablePropertyText(props) {
   // (rejects events based on validateHandler)
   const handleChange = (event) => {
     let newValue = event.target.value;
-    console.log('New value:', newValue)
     if (validateHandler && !validateHandler(newValue)) {
-        console.log('Validation failed')
         event.preventDefault();
     }
     else {
-        console.log('Validation succeeded')
         setActualValue(newValue);
     }
   };
@@ -39,14 +37,19 @@ function EditablePropertyText(props) {
   // focus / blur toggles edit mode & blur saves the state
   const onFocus = () => {
     setIsEdited(true);
-  };
+  }
+
   const onBlur = (event) => {
     setIsEdited(false);
-    if (submitHandler) submitHandler(actualValue);
+    if (submitHandler) {
+        submitHandler(actualValue);
+    }
 
     // prevents the pane to drop focus
     // otherwise the sendPaneMessage-API does not work
-    if (blurStopPropagation) event.stopPropagation();
+    if (blurStopPropagation) {
+        event.stopPropagation();
+    }
   };
 
   // Enter invokes blur and thus submits the change
@@ -56,6 +59,19 @@ function EditablePropertyText(props) {
 
   // effects
   // -------
+
+  // initialize events  
+//   useEffect(() => {
+//     const onEvent = (event) => {
+//       console.log('event:', event)
+//       console.log('event.target.value:', event.target.value)
+//     }
+
+//     EventSystem.subscribe('global.event', onEvent);
+//     return function cleanup() {
+//       EventSystem.unsubscribe('global.event', onEvent);
+//     };
+//   }, []);
 
   // save value if props changed & we are not in edit mode
   useEffect(() => {
@@ -71,6 +87,8 @@ function EditablePropertyText(props) {
       ref={textInput}
       value={actualValue}
       onChange={handleChange}
+      onKeyUp={handleKeyPress}
+      onKeyDown={handleKeyPress}
       onKeyPress={handleKeyPress}
       onBlur={onBlur}
       onFocus={onFocus}
@@ -80,11 +98,8 @@ function EditablePropertyText(props) {
 
 // this component abstracts several types of inputs
 // (text, number, button, checkbox, select) to a common API
-function PropertyItem(props) {
+function PropertyItem(props) {  
   const { propId, type, value, values, blurStopPropagation } = props;
-
-
-  console.log('PropertyItem:', propId, type, value, values, blurStopPropagation)
 
   // by default, this item has no real function & needs to be replaced when used
   const updateValue = props.updateValue || (() => {});
@@ -99,6 +114,7 @@ function PropertyItem(props) {
           submitHandler={(value) => updateValue(propId, value)}
           blurStopPropagation={blurStopPropagation}
         />
+
       );
     case 'number':
       return (
@@ -133,7 +149,9 @@ function PropertyItem(props) {
       return (
         <select
           className="form-control"
-          onChange={(event) => updateValue(propId, event.target.value)}
+          onChange={(event) => {
+            updateValue(propId, event.target.value)
+          }}
           value={value}
         >
           {values.map((name, id) => (

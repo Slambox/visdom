@@ -19,7 +19,10 @@ class EventSystem {
       return false;
     }
 
-    queue.forEach((cb) => cb(data));
+    queue.forEach((cb) => {
+        // console.log('callback', cb, 'called on event', event, 'with data', data);
+        cb(data)
+    });
 
     return true;
   }
