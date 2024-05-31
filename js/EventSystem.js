@@ -19,7 +19,10 @@ class EventSystem {
       return false;
     }
 
-    queue.forEach((cb) => cb(data));
+    queue.forEach((cb) => {
+      // console.debug('EventSystem: publishing event', event, 'with data', data, 'to callback', cb)
+      cb(data)
+    });
 
     return true;
   }
