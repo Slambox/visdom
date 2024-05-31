@@ -157,7 +157,7 @@ function ImagePane(props) {
       switch (event.type) {
         case 'keydown':
         case 'keypress':
-          event.preventDefault();
+        //   event.preventDefault();
           break;
         case 'keyup':
           appApi.sendPaneMessage({

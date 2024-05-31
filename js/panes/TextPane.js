@@ -23,7 +23,7 @@ function TextPane(props) {
     switch (e.type) {
       case 'keydown':
       case 'keypress':
-        e.preventDefault();
+        // e.preventDefault();
         break;
       case 'keyup':
         appApi.sendPaneMessage({

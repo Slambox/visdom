@@ -29,7 +29,7 @@ class EmbeddingsPane extends React.Component {
     switch (e.type) {
       case 'keydown':
       case 'keypress':
-        e.preventDefault();
+        // e.preventDefault();
         break;
       case 'keyup':
         this.props.appApi.sendPaneMessage({
