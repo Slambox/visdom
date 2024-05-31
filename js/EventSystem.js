@@ -19,8 +19,15 @@ class EventSystem {
       return false;
     }
 
+    // console.debug({
+    //   'message': 'EventSystem: publishing event',
+    //   'event': event,
+    //   'type': data.type,
+    //   'data': {...data},
+    //   'target': data.target,
+    //   'callbacks': queue,
+    // })
     queue.forEach((cb) => {
-      // console.debug('EventSystem: publishing event', event, 'with data', data, 'to callback', cb)
       cb(data)
     });
 

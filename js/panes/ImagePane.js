@@ -16,7 +16,7 @@ const DEFAULT_HEIGHT = 400;
 const DEFAULT_WIDTH = 300;
 
 function ImagePane(props) {
-  const { title, type, selected, width, height, appApi } = props;
+  const { title, type, selected, width, height, appApi, isFocused } = props;
   var { content } = props;
 
   // state varibles
@@ -154,12 +154,18 @@ function ImagePane(props) {
   // initialize mouse events
   useEffect(() => {
     const onEvent = (event) => {
+      if (!isFocused) return;
+
       switch (event.type) {
         case 'keydown':
         case 'keypress':
         //   event.preventDefault();
           break;
         case 'keyup':
+        //   console.debug({
+        //     'message': 'sending key press event',
+        //     'event': {...event},
+        //   })
           appApi.sendPaneMessage({
             event_type: 'KeyPress',
             key: event.key,
@@ -170,7 +176,7 @@ function ImagePane(props) {
           appApi.sendPaneMessage({
             event_type: 'Click',
             image_coord: mouseLocation,
-          });
+        });
           break;
       }
     };
@@ -179,7 +185,7 @@ function ImagePane(props) {
     return function cleanup() {
       EventSystem.unsubscribe('global.event', onEvent);
     };
-  }, [mouseLocation]);
+  }, [mouseLocation, isFocused]);
 
   // image size/pos computation
   // --------------------------

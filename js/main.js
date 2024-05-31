@@ -35,6 +35,7 @@ import EnvControls from './topbar/EnvControls';
 import FilterControls from './topbar/FilterControls';
 import ViewControls from './topbar/ViewControls';
 import WidthProvider from './Width';
+import { log } from 'three';
 
 const ReactGridLayout = require('react-grid-layout');
 const jsonpatch = require('fast-json-patch');
@@ -379,6 +380,10 @@ class App extends React.Component {
     }
 
     let msg = JSON.stringify(data);
+    console.debug({
+      'message': 'sendSocketMessage',
+      'data': data,
+    });
     return this._socket.send(msg);
   }
 
